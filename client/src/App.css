@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Pattaya&display=swap');
+a{
+  color: black!important;
+}
+.brand-logo{
+  font-family: 'Pattaya', sans-serif;
+}
+
+.login-card{
+  padding: 20px;
+  text-align: center;
+  max-width: 450px;
+  margin: 5% auto;
+}
+.login-card input:focus {
+  border-bottom: 1px solid #EF5350!important;
+  box-shadow: 0 1px 0 0 #EF5350!important;
+}
+.login-card button {
+  margin-top: 10px;
+}
+.profile-card{
+  display: flex;
+  justify-content: space-around;
+  margin: 18px 0px;
+  border-bottom: 1px solid gray;
+}
+.profile-info{
+  display: flex;
+  width: 110%;
+  justify-content: space-between;
+}
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.gallery-item{
+  width: 30%;
+}
