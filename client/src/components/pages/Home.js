@@ -1,68 +1,95 @@
-import React from 'react'
+import React, { useState,useEffect,useContext } from 'react'
+import {userContext} from '../../App'
 
 const Home = () => {
+    const [data,setData] = useState([])
+    const {state, dispatch}= useContext(userContext)
+    useEffect(() => {
+       fetch('/allpost',{
+           headers:{
+               "Authorization":"Bearer "+localStorage.getItem("jwt")
+           }
+       }).then(res=>res.json())
+       .then(result=>{
+           console.log(result)
+           setData(result.posts)
+       })
+    }, [])
+
+    const likePost = (id)=>{
+        fetch('/like',{
+            method:"put",
+            headers:{
+                "Authorization":"Bearer "+localStorage.getItem("jwt"),
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                postId:id
+            })
+        }).then(res=>res.json())
+        .then(result=>{
+            const newData = data.map(item=>{
+                if(item._id==result._id){
+                    return result
+                }else{
+                    return item
+                }
+            })
+            setData(newData)
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+    const unlikePost = (id)=>{
+        fetch('/unlike',{
+            method:"put",
+            headers:{
+                "Authorization":"Bearer "+localStorage.getItem("jwt"),
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                postId:id
+            })
+        }).then(res=>res.json())
+        .then(result=>{
+            const newData = data.map(item=>{
+                if(item._id==result._id){
+                    return result
+                }else{
+                    return item
+                }
+            })
+            setData(newData)
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+
     return(
         <div className="home">
-            <div className="card home-card">
-                <h5>User Name</h5>
-                <div className="card-image">
-                    <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8ZG9nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" />
-                </div>
-                <div className="card-content">
-                    <i className="material-icons" style={{color:"red"}}>favorite_border</i>
-                    <h6>tile</h6>
-                    <p>This is a body copy</p>
-                    <input type="text" placeholder="add a comment"></input>
-                </div>
-            </div>
-            <div className="card home-card">
-                <h5>User Name</h5>
-                <div className="card-image">
-                    <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8ZG9nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" />
-                </div>
-                <div className="card-content">
-                    <i className="material-icons" style={{color:"red"}}>favorite_border</i>
-                    <h6>tile</h6>
-                    <p>This is a body copy</p>
-                    <input type="text" placeholder="add a comment"></input>
-                </div>
-            </div>
-            <div className="card home-card">
-                <h5>User Name</h5>
-                <div className="card-image">
-                    <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8ZG9nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" />
-                </div>
-                <div className="card-content">
-                    <i className="material-icons" style={{color:"red"}}>favorite_border</i>
-                    <h6>tile</h6>
-                    <p>This is a body copy</p>
-                    <input type="text" placeholder="add a comment"></input>
-                </div>
-            </div>
-            <div className="card home-card">
-                <h5>User Name</h5>
-                <div className="card-image">
-                    <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8ZG9nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" />
-                </div>
-                <div className="card-content">
-                    <i className="material-icons" style={{color:"red"}}>favorite_border</i>
-                    <h6>tile</h6>
-                    <p>This is a body copy</p>
-                    <input type="text" placeholder="add a comment"></input>
-                </div>
-            </div>
-            <div className="card home-card">
-                <h5>User Name</h5>
-                <div className="card-image">
-                    <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8ZG9nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" />
-                </div>
-                <div className="card-content">
-                    <i className="material-icons" style={{color:"red"}}>favorite_border</i>
-                    <h6>tile</h6>
-                    <p>This is a body copy</p>
-                    <input type="text" placeholder="add a comment"></input>
-                </div>
-            </div>
+            {
+                data.map(item=>{
+                    return(
+                        <div className="card home-card" key={item._id}>
+                            <h5 style={{padding:"2px 10px"}}>{item.postedBy.name}</h5>
+                            <div className="card-image">
+                                <img src={item.photo} />
+                            </div>
+                            <div className="card-content">
+                                {item.likes.includes(state._id)?<i className="material-icons" onClick={()=>unlikePost(item._id)} style={{color:"red"}}>favorite</i>
+                                :<i className="material-icons" onClick={()=>likePost(item._id)} style={{color:"red"}}>favorite_border</i>
+                                }
+                                
+                                <h6>{item.likes.length} people liked this</h6>
+                                <h6>{item.title}</h6>
+                                <p>{item.body}</p>
+                                <input type="text" placeholder="add a comment"></input>
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            
 
         </div>
     )

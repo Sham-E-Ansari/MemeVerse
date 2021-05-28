@@ -1,13 +1,22 @@
 import React,{useContext} from 'react'
-import {Link} from 'react-router-dom'
+import {Link,useHistory} from 'react-router-dom'
 import {userContext} from '../App'
+import M from 'materialize-css'
+
 const Navbar = () => {
+    const history = useHistory()
     const {state,dispatch} = useContext(userContext)
     const renderList=()=>{
         if(state){
             return [
                 <li><Link to="/profile">Profile</Link></li>,
-                <li><Link to="/createpost">CreatePost</Link></li>
+                <li><Link to="/createpost">CreatePost</Link></li>,
+                <li><a className="logout" onClick={()=>{
+                    localStorage.clear()
+                    dispatch({type:"CLEAR"})
+                    history.push('/signin')
+                    M.toast({html:"Logout successfull!!!", classes:"#43a047 green darken-1"})
+                }} >Logout</a></li>
             ]
         }else {
             return [
