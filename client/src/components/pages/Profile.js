@@ -19,7 +19,7 @@ const Profile = () => {
             <div className="profile-card">
                 <div>
                     <img alt="Sami" style={{width:"160px",height:"160px",borderRadius:"80px"}}
-                    src="https://images.unsplash.com/photo-1457449940276-e8deed18bfff?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"/>
+                    src="http://www.damodarcollege.edu.in/web/wp-content/uploads/2021/01/sample-photo1.jpg"/>
                 </div>
                 <div>
                     <h4>{state.name}</h4>
