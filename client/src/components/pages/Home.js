@@ -64,7 +64,31 @@ const Home = () => {
             console.log(err)
         })
     }
-
+    const postComment = (text,postId)=>{
+        fetch('/comment',{
+            method:"put",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+localStorage.getItem("jwt")
+            },
+            body:JSON.stringify({
+                postId,
+                text
+            })
+        }).then(res=>res.json())
+        .then(result=>{
+            const newData = data.map(item=>{
+                if(item._id===result._id){
+                    return result
+                }else{
+                    return item
+                }
+            })
+            setData(newData)
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
     return(
         <div className="home">
             {
@@ -83,7 +107,19 @@ const Home = () => {
                                 <h6>{item.likes.length} people liked this</h6>
                                 <h6>{item.title}</h6>
                                 <p>{item.body}</p>
-                                <input type="text" placeholder="add a comment"></input>
+                                {
+                                    item.comments.map(postComment=>{
+                                        return(
+                                            <h6 key={postComment._id}><span className="comment-div">{postComment.commentedBy.name}-</span> {postComment.text}</h6>
+                                        )
+                                    })
+                                }
+                                <form onSubmit={(e)=>{ 
+                                    e.preventDefault() 
+                                    postComment(e.target[0].value,item._id)
+                                    }}>
+                                    <input type="text" placeholder="add a comment"></input>
+                                </form>
                             </div>
                         </div>
                     )

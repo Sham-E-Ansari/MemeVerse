@@ -51,3 +51,7 @@ a{
 .logout{
   color: red!important;
 }
+.comment-div{
+  color: midnightblue!important;
+  font-weight: 500;
+}

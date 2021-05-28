@@ -7,6 +7,7 @@ const Post = mongoose.model("Post")
 router.get('/allpost',requireLogin,(req,res)=>{
     Post.find()
     .populate("postedBy","_id name")
+    .populate("comments.commentedBy","_id name")
     .then((posts)=>{
         res.json({posts})
     })
@@ -48,6 +49,30 @@ router.put('/unlike',requireLogin,(req,res)=>{
     })
 
 })
+
+router.put('/comment',requireLogin,(req,res)=>{
+    const comment = {
+        text:req.body.text,
+        commentedBy: req.user._id
+    }
+    Post.findByIdAndUpdate(req.body.postId,{
+        $push:{comments:comment}
+    },{
+        new:true
+    })
+    .populate("comments.commentedBy","_id name")
+    .populate("postedBy","_id name")
+    .exec((err,result)=>{
+        if(err){
+            return res.status(422).json({error:err})
+        }else{
+            res.json(result)
+        }
+    })
+
+})
+
+
 router.post('/createpost',requireLogin,(req,res)=>{
     const {title,body,photo} = req.body
     console.log(title,body,photo)
