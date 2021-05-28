@@ -7,7 +7,7 @@ const Post = mongoose.model("Post")
 router.get('/allpost',requireLogin,(req,res)=>{
     Post.find()
     .populate("postedBy","_id name")
-    .then(posts=>{
+    .then((posts)=>{
         res.json({posts})
     })
     .catch(err=>{
@@ -18,7 +18,11 @@ router.get('/allpost',requireLogin,(req,res)=>{
 router.put('/like',requireLogin,(req,res)=>{
     Post.findByIdAndUpdate(req.body.postId,{
         $push:{likes:req.user._id}
-    },{new:true}).exec((err,result)=>{
+    },{
+        new:true
+
+    }).populate("postedBy","_id name")
+    .exec((err,result)=>{
         if(err){
             return res.status(422).json({error:err})
         }else{
@@ -31,7 +35,11 @@ router.put('/like',requireLogin,(req,res)=>{
 router.put('/unlike',requireLogin,(req,res)=>{
     Post.findByIdAndUpdate(req.body.postId,{
         $pull:{likes:req.user._id}
-    },{new:true}).exec((err,result)=>{
+    },{
+        new:true
+    })
+    .populate("postedBy","_id name")
+    .exec((err,result)=>{
         if(err){
             return res.status(422).json({error:err})
         }else{

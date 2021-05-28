@@ -30,7 +30,7 @@ const Navbar = () => {
             <div className="nav-wrapper white">
                 <div className="navigation">
                     <Link to={state?"/":"/signin"} className="brand-logo left">Meme Verse</Link>
-                    <ul id="nav-mobile" className="right hide-on-med-and-down">
+                    <ul id="nav-mobile" className="right hide-on-small-and-down">
                         {renderList()}
                     </ul>
                 </div>
