@@ -25,8 +25,8 @@ const Profile = () => {
                     <h4>{state.name}</h4>
                     <div className="profile-info">
                         <h6>{userPhotos.length} posts</h6>
-                        <h6>10 followers</h6>
-                        <h6>10 following</h6>
+                        <h6>{state.followers.length} followers</h6>
+                        <h6>{state.following.length} following</h6>
                     </div>
                 </div>
             </div>

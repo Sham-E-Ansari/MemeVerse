@@ -1,6 +1,7 @@
 import React, { useState,useEffect,useContext } from 'react'
 import {userContext} from '../../App'
 import M from 'materialize-css'
+import {Link} from 'react-router-dom'
 
 const Home = () => {
     const [data,setData] = useState([])
@@ -110,10 +111,12 @@ const Home = () => {
     return(
         <div className="home">
             {
+                
                 data.map(item=>{
+                    console.log(item)
                     return(
                         <div className="card home-card" key={item._id}>
-                            <h6 style={{padding:"5px 10px"}}><b>{item.postedBy.name}</b>
+                            <h6 style={{padding:"5px 10px"}}><b><Link to={item.postedBy._id !== state._id ? "/profile/"+item.postedBy._id : "/profile"}>{item.postedBy.name}</Link></b>
                             {
                                 item.postedBy._id == state._id
                                 && <i className="material-icons" onClick={()=>deletePost(item._id)} style={{float:"right"}}>delete</i>
