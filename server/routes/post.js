@@ -8,6 +8,7 @@ router.get('/allpost',requireLogin,(req,res)=>{
     Post.find()
     .populate("postedBy","_id name")
     .populate("comments.commentedBy","_id name")
+    .sort('-createdAt')
     .then((posts)=>{
         res.json({posts})
     })
@@ -92,14 +93,13 @@ router.delete('/deletepost/:postId',requireLogin,(req,res)=>{
 
 
 router.post('/createpost',requireLogin,(req,res)=>{
-    const {title,body,photo} = req.body
-    console.log(title,body,photo)
-    if(!title || !body || !photo){
+    const {body,photo} = req.body
+    console.log(body,photo)
+    if(!body || !photo){
         return res.status(422).json({error:"Please fill all fields!!!"})
     }
     req.user.password = undefined
     const post = new Post({
-        title,
         body,
         photo,
         postedBy:req.user

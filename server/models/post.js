@@ -2,10 +2,6 @@ const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema.Types
 
 const postSchema = new mongoose.Schema({
-    title:{
-        type:String,
-        require:true
-    },
     body:{
         type:String,
         required:true
@@ -27,6 +23,6 @@ const postSchema = new mongoose.Schema({
         commentedBy:{type:ObjectId,ref:"User"}
     }]
 
-})
+},{timestamps:true})
 
 mongoose.model("Post",postSchema)

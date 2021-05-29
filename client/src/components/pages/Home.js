@@ -131,7 +131,6 @@ const Home = () => {
                                 }
                                 
                                 <h6>{item.likes.length} people liked this</h6>
-                                <h6>{item.title}</h6>
                                 <p>{item.body}</p>
                                 {
                                     item.comments.map(postComment=>{

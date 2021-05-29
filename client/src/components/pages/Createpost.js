@@ -4,7 +4,6 @@ import M from 'materialize-css'
 
 const CreatePost =()=>{
     const history = useHistory()
-    const [title,setTitle] = useState("")
     const [body,setBody] = useState("")
     const [image,setImage] = useState("")
     const [imageUrl,setImageUrl] = useState("")
@@ -17,7 +16,6 @@ const CreatePost =()=>{
                     "Authorization":"Bearer "+localStorage.getItem("jwt")
                 },
                 body:JSON.stringify({
-                    title,
                     body,
                     photo:imageUrl
                 })
@@ -64,8 +62,7 @@ const CreatePost =()=>{
             padding:"20px",
             textAlign:"center"
         }}>
-            <input type="text" placeholder ="title" value={title} onChange={(e)=>setTitle(e.target.value)}/>
-            <input type="text" placeholder ="body" value={body} onChange={(e)=>setBody(e.target.value)}/>
+            <input type="text" placeholder ="caption" value={body} onChange={(e)=>setBody(e.target.value)}/>
             <div className="file-field input-field">
                 <div className="btn">
                     <span>Select Image</span>
