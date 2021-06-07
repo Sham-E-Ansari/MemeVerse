@@ -14,6 +14,7 @@ const Profile = () => {
            setuserPhotos(result.userpost)
        })
     }, [])
+    console.log(state)
     return(
         <div style={{maxWidth:"600px", margin:"0px auto"}}>
             <div className="profile-card">
@@ -25,8 +26,8 @@ const Profile = () => {
                     <h4>{state.name}</h4>
                     <div className="profile-info">
                         <h6>{userPhotos.length} posts</h6>
-                        <h6>{state.followers.length} followers</h6>
-                        <h6>{state.following.length} following</h6>
+                        <h6>{state?state.followers.length:"0"} followers</h6>
+                        <h6>{state?state.following.length:"0"}  following</h6>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,7 @@ const Profile = () => {
             }
         }).then(res=>res.json())
         .then(result=>{
+            console.log(result)
             setuserProfile(result)
         })
      },[])
@@ -68,7 +69,7 @@ const Profile = () => {
            }})
            localStorage.setItem("user",JSON.stringify(data))
            setuserProfile((prevState)=>{
-               const newfollowers = prevState.user.followers.filter(item=>item != data._id)
+               const newfollowers = prevState.user.followers.filter(item=>item !== data._id)
                return{
                    ...prevState,
                    user:{
